@@ -50,4 +50,23 @@ class PostTest extends TestCase
 
         $this->assertNull(Post::find($post->id));
     }
+
+    public function test_updates_post(){
+
+        $data = [
+            'title' => $this->faker->sentence(),
+            'content' => $this->faker->text(200)
+        ];
+        
+        create(User::class);
+        $post = create(Post::class);
+
+        $response = $this->json('PUT',$this->baseUrl . "posts/{$post->id}",$data);
+        $response->assertStatus(200);
+
+        $post = $post->fresh();
+
+        $this->assertEquals($post->title,$data['title']);
+        $this->assertEquals($post->content,$data['content']);
+    }
 }
