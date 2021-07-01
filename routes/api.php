@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\v1\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,8 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group([
-    "prefix" => 'v1',
-    "namespace" => "Api/V1"
+    "prefix" => 'v1'
 ],function(){
-
+    Route::apiResource('posts',PostController::class);
 });
