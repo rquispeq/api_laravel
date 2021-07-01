@@ -69,4 +69,18 @@ class PostTest extends TestCase
         $this->assertEquals($post->title,$data['title']);
         $this->assertEquals($post->content,$data['content']);
     }
+
+    public function test_show_post(){
+        create(User::class);
+        $post = create(Post::class);
+
+        $response = $this->json('GET',$this->baseUrl . "posts/{$post->id}");
+        $response->assertStatus(200);
+        $response->assertJson([
+            'data' => [
+                'id' => $post->id,
+                'title' => $post->title
+            ]
+        ]);
+    }
 }
