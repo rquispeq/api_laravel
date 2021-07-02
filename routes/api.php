@@ -21,7 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group([
-    "prefix" => 'v1'
+    "prefix" => 'v1',
+    'middleware' => ['auth:api']
 ],function(){
     Route::apiResource('posts',PostController::class);
 });
