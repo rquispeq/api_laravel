@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\v1\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,3 +25,6 @@ Route::group([
 ],function(){
     Route::apiResource('posts',PostController::class);
 });
+
+Route::post('login', [AuthController::class,'login']);
+Route::post('signup', [AuthController::class,'signup']);

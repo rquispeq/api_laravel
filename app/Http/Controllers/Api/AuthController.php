@@ -32,4 +32,19 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Successfully created user']);
     }
+
+    public function login(Request $request){
+        $user = User::where('email', $request->email)->first();
+
+        if ($user) {
+            if (Hash::check($request->password,$user->password)) {
+                $token = $user->createToken('Laravel User Client')->accessToken;
+                return response()->json(['token' => $token],200);
+            } else {
+                return response()->json(['error' => 'Password or Email missmatch'],422);
+            }
+        }
+
+        return response()->json(['error' => 'User does not exists'],422);
+    }
 }
