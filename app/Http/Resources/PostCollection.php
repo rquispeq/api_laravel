@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class PostCollection extends ResourceCollection
@@ -16,6 +18,31 @@ class PostCollection extends ResourceCollection
     {
         return [
             'data' => PostResource::collection($this->collection)
+        ];
+    }
+
+    public function with($request){
+        $authors = $this->collection->map(function($post){
+            return $post->author;
+        });
+
+        $comments = $this->collection->flatMap(function($post){
+            return $post->comments;
+        });
+
+        $includes = $authors->merge($comments);
+
+        return [
+            'links' => [
+                'self' => route('posts.index')
+            ],
+            'included' => $includes->map(function($item){
+                if ($item instanceof User) {
+                    return new UserResource($item);
+                } else if ($item instanceof Comment) {
+                    return new CommentResource($item);
+                }
+            })
         ];
     }
 }
