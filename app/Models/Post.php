@@ -22,4 +22,12 @@ class Post extends Model
     public function author(){
         return $this->belongsTo(User::class,'author_id','id');
     }
+
+    public function isAuthorLoaded(){
+        return $this->relationLoaded('author');
+    }
+
+    public function isCommentsLoaded(){
+        return $this->relationLoaded('comments');
+    }
 }

@@ -17,7 +17,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return new PostCollection(Post::paginate(1));
+        return new PostCollection(Post::with(['author','comments'])->paginate(1));
     }
 
     /**
@@ -28,8 +28,9 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
+        PostResource::withoutWrapping();
         $post = Post::create($request->all());
-        return response()->json(['data' => $post],201);
+        return new PostResource($post);
     }
 
     /**
@@ -42,7 +43,6 @@ class PostController extends Controller
     {
         PostResource::withoutWrapping();
         return new PostResource($post);
-        // return response()->json(['data' => $post,200]);
     }
 
     /**
@@ -55,7 +55,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $post->update($request->all());
-        return response()->json(['data' => $post],200);
+        return new PostResource($post);
     }
 
     /**

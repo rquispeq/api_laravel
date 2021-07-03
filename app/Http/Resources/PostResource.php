@@ -22,13 +22,14 @@ class PostResource extends JsonResource
             'attributes' => [
                 'title' => $this->title
             ],
-            $this->mergeWhen(!is_null($user) ? $user->isAdmin() : false,[
-                'created' => $this->created_at
-            ]),
+            'created' => $this->created_at
+            ,
             "links" => [
                 'self' => route('posts.show',['post' => $this->id])
             ],
-            'relationships' => new PostsRelationshipResource($this)
+            $this->mergeWhen(($this->isAuthorLoaded() && $this->isCommentsLoaded()),[
+                'relationships' => new PostsRelationshipResource($this)
+            ])
         ];
     }
 }
