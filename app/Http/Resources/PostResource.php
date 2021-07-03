@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class PostResource extends JsonResource
 {
@@ -14,13 +15,16 @@ class PostResource extends JsonResource
      */
     public function toArray($request)
     {
-        // return parent::toArray($request);
+        $user = Auth::user();
         return [
             'type' => $this->getTable(),
             'id' => $this->id,
             'attributes' => [
                 'title' => $this->title
             ],
+            $this->mergeWhen(!is_null($user) ? $user->isAdmin() : false,[
+                'created' => $this->created_at
+            ]),
             "links" => [
                 'self' => route('posts.show',['post' => $this->id])
             ],
