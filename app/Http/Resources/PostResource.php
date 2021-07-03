@@ -23,7 +23,8 @@ class PostResource extends JsonResource
             ],
             "links" => [
                 'self' => route('posts.show',['post' => $this->id])
-            ]
+            ],
+            'relationships' => new PostsRelationshipResource($this)
         ];
     }
 }
