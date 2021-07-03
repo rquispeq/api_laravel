@@ -27,8 +27,13 @@ Route::group([
     'middleware' => ['auth:api']
 ],function(){
     Route::apiResource('posts',PostController::class);
+
     Route::get('/posts/{post}/relationships/author',[PostRelationShipController::class,'author'])->name('posts.relationships.author');
+    Route::get('/posts/{post}/author',[PostRelationShipController::class,'author'])->name('posts.author');
+
     Route::get('/posts/{post}/relationships/comments',[PostRelationShipController::class,'comments'])->name('posts.relationships.comments');
+    Route::get('/posts/{post}/comments',[PostRelationShipController::class,'comments'])->name('posts.comments');
+
     Route::apiResource('users', UserController::class);
 });
 
