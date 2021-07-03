@@ -17,8 +17,8 @@ class PostsRelationshipResource extends JsonResource
         return [
             'author' => [
                 'links' => [
-                    'self' => '',
-                    'related' => ''
+                    'self' => route('posts.show',['post' => $this->id]),
+                    'related' => route('posts.relationships.author',['post' => $this->id])
                 ],
                 'data' => new AuthorIdentifierResource($this->author)
             ],
