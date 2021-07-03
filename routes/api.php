@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\v1\CommentController;
 use App\Http\Controllers\Api\v1\PostController;
 use App\Http\Controllers\Api\v1\UserController;
 use App\Http\Controllers\PostRelationShipController;
@@ -35,6 +36,7 @@ Route::group([
     Route::get('/posts/{post}/comments',[PostRelationShipController::class,'comments'])->name('posts.comments');
 
     Route::apiResource('users', UserController::class);
+    Route::apiResource('comments', CommentController::class);
 });
 
 Route::post('login', [AuthController::class,'login']);

@@ -22,7 +22,7 @@ class PostsRelationshipResource extends JsonResource
                 ],
                 'data' => new AuthorIdentifierResource($this->author)
             ],
-            'comments' => new PostCommentRelationshipCollection($this->comments)
+            'comments' => (new PostCommentRelationshipCollection($this->comments))->additional(['posts' => $this])
         ];
     }
 }
